@@ -1,0 +1,146 @@
+body {
+  background: #6D7074;
+}
+
+
+.terminal-window {
+  text-align: left;
+  width: 95vw;
+  height: 95vh;
+  border-radius: 10px;
+  margin: auto;
+  position: relative;
+}
+
+.terminal-window header {
+  background: #E0E8F0;
+  height: 30px;
+  border-radius: 8px 8px 0 0;
+  padding-left: 10px;
+}
+
+.terminal-window header .button {
+  width: 12px;
+  height: 12px;
+  margin: 10px 4px 0 0;
+  display: inline-block;
+  border-radius: 8px;
+}
+
+.terminal-window header .button.green {
+  background: #3BB662;
+}
+
+.terminal-window header .button.yellow {
+  background: #E5C30F;
+}
+
+.terminal-window header .button.red {
+  background: #E75448;
+}
+
+.terminal-window section.terminal {
+  color: white;
+  font-family: Menlo, Monaco, "Consolas", "Courier New", "Courier";
+  font-size: 11pt;
+  background: #30353A;
+  padding: 10px;
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  bottom: 0;
+  overflow: auto;
+}
+
+.terminal-window section.terminal .typed-cursor {
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+
+.terminal-data { display: none; }
+.terminal-window .gray { color: gray; }
+.terminal-window .green { color: green;}
+.terminal-window .yellow { color: rgb(231, 231, 33);}
+.terminal-window .red { color: rgb(255, 116, 116);}
+.terminal-window .purple { color: purple;}
+.terminal-window .blue { color: rgb(90, 90, 255);}
+.terminal-window a { color: rgb(111, 111, 255);}
+.terminal-window .header { 
+  text-align: center;
+  font-family: Menlo, Monaco, "Consolas", "Courier New", "Courier";
+}
+.terminal-window .chapter { 
+  font-weight: bold;
+  font-size: 16pt;
+}
+.terminal-window .title { 
+  font-weight: bold;
+  font-size: 13pt;
+}
+.terminal-window .tiny { 
+  font-size: 9pt;
+}
+
+/*Tables*/
+.terminal-window table {
+  margin-left: 12em; 
+  border-collapse: collapse;
+  width: auto;
+}
+.terminal-window th {
+  font-weight: bold;
+  font-style: italic;
+}
+.terminal-window td, th {
+  border: 1px solid #898b8f;
+  text-align: left;
+  padding: 8px;
+}
+.terminal-window tr:nth-child(even) {
+  background-color: #6d707486;
+}
+
+/*Contact Me Styling*/
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.contact_column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left {
+  width: 25%;
+}
+
+.right {
+  width: 75%;
+}
+
+/* Clear floats after the columns */
+.contact_row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
