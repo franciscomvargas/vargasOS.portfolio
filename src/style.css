@@ -12,6 +12,19 @@ body {
   position: relative;
 }
 
+.terminal-window input:focus {
+  outline: none; /* Remove default focus outline */
+  border: none;  /* Remove border on focus */
+}
+
+.terminal-window input {
+  background: none;
+  border: none;
+  color: white;
+  font: inherit;
+  width: 96%; 
+}
+
 .terminal-window header {
   background: #E0E8F0;
   height: 30px;
@@ -43,7 +56,11 @@ body {
   color: white;
   font-family: Menlo, Monaco, "Consolas", "Courier New", "Courier";
   font-size: 11pt;
-  background: #30353A;
+  background: #30353A ;
+  background-image:url('bg.gif');
+  background-blend-mode: multiply;
+  background-repeat: repeat;
+  background-attachment: local;
   padding: 10px;
   box-sizing: border-box;
   position: absolute;
@@ -55,6 +72,7 @@ body {
 
 .terminal-window section.terminal .typed-cursor {
     opacity: 1;
+    display: none;
     -webkit-animation: blink 0.7s infinite;
     -moz-animation: blink 0.7s infinite;
     animation: blink 0.7s infinite;
