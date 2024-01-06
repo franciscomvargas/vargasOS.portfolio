@@ -90,7 +90,7 @@ $(function () {
             //-h, --help  Show this help message and exit
             //--id        About me
             //--academic  Academic Education
-            //--skills    Technical Habilities
+            //--skills    Technical Abilities
             //--pro       Professional Experience
             //--projects  My babies
             //--contact   How to reach me
