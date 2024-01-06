@@ -195,7 +195,16 @@ $(function () {
                 // Handle unknown command
                 var history = $(".history").html();
                 history = history ? [history] : [];
+
+                if(enteredCommand === "")
+                {
+                history.push("~$ " + enteredCommand + "&nbsp;");
+                }
+                else
+                {
                 history.push("~$ " + enteredCommand + "<br>" + enteredCommand + ": command not found<br>&nbsp;");
+                  
+                }
                 $(".history").html(history.join("<br>"));
                 clearInput();
                 $("section.terminal").scrollTop(
@@ -214,6 +223,11 @@ document.addEventListener("DOMContentLoaded", function() {
   // Focus on the input element with id "commandInput" on load
   document.getElementById("commandInput").focus();
 });
+
+$(".terminal-window").click(function(){
+  document.getElementById("commandInput").focus();
+})
+
 
 function runScripts(data, pos) {
     console.log("🚀 ~ file: gscript.js:171 ~ runScripts ~ data:", data)
