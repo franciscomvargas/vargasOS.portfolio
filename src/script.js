@@ -59,27 +59,14 @@ $(function () {
             postDelay: 500,
             command: "ls",
         },
+        {
+            action: 'type',
+            strings: [""],
+            output: 'Python 3.12.1<br>&nbsp;',
+            postDelay: 500,
+            command: "python3 --version",
+        },
         /*
-        {
-            action: 'type',
-            strings: ["python3 ./cv.py^500"],
-            output: '<span class="gray"># Run python script</span><br>bash: python3: command not found<br>&nbsp;',
-            postDelay: 300,
-            command: "python3 ./cv.py"
-        },
-        {
-            action: 'type',
-            strings: ["conda create --prefix ./venv python=3.12 -y^1000"],
-            output: '<span class="gray"># Create Virtual Environment</span><br>Collecting package metadata (repodata.json): done<br>Solving environment: done<br><br>## Package Plan ##<br><br>&nbsp;&nbsp;environment location: /home/vargas/venv<br>&nbsp;',
-            postDelay: 300,
-            command: "python3 ./cv.py"
-        },
-        {
-            action: 'type',
-            strings: ["./venv/bin/python3 --version"],
-            output: '<span class="gray"># Confirm virtual environment&#39;s python path</span><br>Python 3.12.1<br>&nbsp;',
-            postDelay: 300
-        },
         {
             action: 'type',
             strings: ["clear"],
