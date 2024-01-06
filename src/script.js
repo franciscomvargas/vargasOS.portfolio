@@ -2,6 +2,8 @@
     // var bgcolor = enteredCommand.toHSL({hue: [180, 360],sat: [75, 95],lit: [55, 65], tra: '1'});
     // console.log(bgcolor)
     // $("body").css("background", bgcolor)
+var cmd_stack = [];
+var cmd_stack_cnt = -1;
 String.prototype.toHSL = function(opts) {
   // @ts-ignore
   var h, s, l;
@@ -164,48 +166,91 @@ $(function () {
 
     // Listen for "Enter" key press in the input field
     $("#commandInput").on("keydown", function (event) {
-        if (event.key === "Enter") {
-            
-            event.preventDefault(); // Prevent form submission
-            var enteredCommand = $(this).val().trim();
-            var bgcolor = enteredCommand.toHSL({hue: [90, 360],sat: [75, 95],lit: [55, 65], tra: '0.65'});
-            console.log(bgcolor)
-            $("body").css("background", bgcolor)
-            clearInput();
-            // Find the script that matches the entered command
-            var matchingScript = data.find(function (script) {
-                return script.command === enteredCommand;
-            });
-            
-            
-            if (matchingScript) {
-                // Run the matching script
-                runScripts([matchingScript], 0);
-            } else {
-                // Handle unknown command
-                var history = $(".history").html();
-                history = history ? [history] : [];
-
-                if(enteredCommand === "")
-                {
-                history.push("~$ " + enteredCommand + "&nbsp;");
+        switch(event.key){
+            case "ArrowUp":
+                if(cmd_stack_cnt === -1){
+                    cmd_stack_cnt = cmd_stack.length -1;
                 }
-                else
-                {
-                history.push("~$ " + enteredCommand + "<br>" + enteredCommand + ": command not found<br>&nbsp;");
-                  
+                else if(cmd_stack_cnt !== 0){
+                    cmd_stack_cnt--;
                 }
-                $(".history").html(history.join("<br>"));
+                // Change Input
+                cmdStack();
+                break;
+            case "ArrowDown":
+                if(cmd_stack_cnt !== -1 && cmd_stack_cnt < cmd_stack.length -1){
+                    cmd_stack_cnt++;
+                }
+                else if(cmd_stack_cnt === cmd_stack.length -1){
+                    cmd_stack_cnt = -1
+                }
+                // Change Input
+                cmdStack();
+                break;
+            case "Enter":
+                cmd_stack_cnt = -1;
+                event.preventDefault(); // Prevent form submission
+                var enteredCommand = $(this).val().trim();
+                var bgcolor = enteredCommand.toHSL({hue: [90, 360],sat: [75, 95],lit: [55, 65], tra: '0.65'});
+                $("body").css("background", bgcolor)
                 clearInput();
-                $("section.terminal").scrollTop(
-                    $("section.terminal").height() + 10000
-                );
-            }
+
+                // Handle multiple python prefixes
+                // if(enteredCommand.startsWith("python "){
+
+                // }
+                // else 
+                // if(enteredCommand.startsWith("py ")){
+                //     entered
+                // }
+
+                // Save cmd in stack
+                if(cmd_stack.includes(enteredCommand)){
+                    delete cmd_stack[cmd_stack.indexOf(enteredCommand)];
+                }
+                cmd_stack.push(enteredCommand)
+                console.log("🚀 ~ file: script.js:203 ~ cmd_stack:", cmd_stack)
+
+                // Find the script that matches the entered command
+                var matchingScript = data.find(function (script) {
+                    return script.command === enteredCommand;
+                });
+                if (matchingScript) {
+                    // Run the matching script
+                    runScripts([matchingScript], 0);
+                } else {
+                    // Handle unknown command
+                    var history = $(".history").html();
+                    history = history ? [history] : [];
+
+                    if(enteredCommand === "")
+                    {
+                        history.push("~$ " + enteredCommand + "&nbsp;");
+                    }
+                    else
+                    {
+                        history.push("~$ " + enteredCommand + "<br>" + enteredCommand + ": command not found<br>&nbsp;");
+                    }
+                    $(".history").html(history.join("<br>"));
+                    clearInput();
+                    $("section.terminal").scrollTop(
+                        $("section.terminal").height() + 10000
+                    );
+                }
+                break;
         }
     });
 
     function clearInput() {
         $("#commandInput").val("");
+    }
+    function cmdStack() {
+        if(cmd_stack_cnt !== -1){
+            $("#commandInput").val(cmd_stack[cmd_stack_cnt]);
+        } 
+        else {
+            clearInput();
+        }
     }
 });
 
@@ -220,7 +265,6 @@ $(".terminal-window").click(function(){
 
 
 function runScripts(data, pos) {
-    console.log("🚀 ~ file: gscript.js:171 ~ runScripts ~ data:", data)
     var prompt = $(".prompt"),
         script = data[pos];
     if (script.clear === true) {
