@@ -10,6 +10,9 @@ body {
   border-radius: 10px;
   margin: auto;
   position: relative;
+  -webkit-box-shadow: 17px 14px 40px -3px rgba(0,0,0,0.62);
+  -moz-box-shadow: 17px 14px 40px -3px rgba(0,0,0,0.62);
+  box-shadow: 17px 14px 40px -3px rgba(0,0,0,0.62);
 }
 
 .terminal-window input:focus {
