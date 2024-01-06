@@ -68,13 +68,18 @@ $(function () {
             postDelay: 500,
             command: "python3 --version",
         },
-        /*
         {
             action: 'type',
-            strings: ["clear"],
-            output: '&nbsp;',
-            postDelay: 200
-        },*/
+            strings: [""],
+            clear: true,
+            command: "clear",
+        },
+        {
+            action: 'type',
+            strings: [""],
+            clear: true,
+            command: "cls",
+        },
         {
             // Get script Usage
             //usage: cv.py [-h] [--id] [--academic] [--skills] [--pro] [--projects] [--contact] [--egg]
