@@ -178,7 +178,7 @@ $(function () {
             
             event.preventDefault(); // Prevent form submission
             var enteredCommand = $(this).val().trim();
-            var bgcolor = enteredCommand.toHSL({hue: [180, 360],sat: [75, 95],lit: [55, 65], tra: '1'});
+            var bgcolor = enteredCommand.toHSL({hue: [80, 360],sat: [75, 95],lit: [55, 65], tra: '0.65'});
             console.log(bgcolor)
             $("body").css("background", bgcolor)
             clearInput();
