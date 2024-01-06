@@ -173,32 +173,36 @@ $(function () {
     $("#commandInput").on("keydown", function (event) {
         switch(event.key){
             case "ArrowUp":
-                if(cmd_stack_cnt === -1){
+                // Stack POS Logic
+                if(cmd_stack_cnt === 0){
+                    break;
+                }
+                if(cmd_stack_cnt < 0){
                     cmd_stack_cnt = cmd_stack.length -1;
                 }
-                else if(cmd_stack_cnt !== 0){
+                else{
                     cmd_stack_cnt--;
                 }
                 // Change Input
-                cmdStack();
+                setStack(event);
                 break;
             case "ArrowDown":
-                if(cmd_stack_cnt !== -1 && cmd_stack_cnt < cmd_stack.length -1){
+                // Stack POS Logic
+                if(cmd_stack_cnt >= 0 && cmd_stack_cnt < cmd_stack.length -1){
                     cmd_stack_cnt++;
                 }
                 else if(cmd_stack_cnt === cmd_stack.length -1){
-                    cmd_stack_cnt = -1
+                    cmd_stack_cnt = -2;
                 }
                 // Change Input
-                cmdStack();
+                setStack(event);
                 break;
             case "Enter":
-                cmd_stack_cnt = -1;
                 event.preventDefault(); // Prevent form submission
+                cmd_stack_cnt = -1;
                 var enteredCommand = $(this).val().trim();
                 var bgcolor = enteredCommand.toHSL({hue: [90, 360],sat: [75, 95],lit: [55, 65], tra: '0.65'});
-                $("body").css("background", bgcolor)
-                clearInput();
+                $("body").css("background", bgcolor);
 
                 // Handle multiple python prefixes
                 // if(enteredCommand.startsWith("python "){
@@ -210,12 +214,8 @@ $(function () {
                 // }
 
                 // Save cmd in stack
-                if(cmd_stack.includes(enteredCommand)){
-                    delete cmd_stack[cmd_stack.indexOf(enteredCommand)];
-                }
-                cmd_stack.push(enteredCommand)
-                console.log("🚀 ~ file: script.js:203 ~ cmd_stack:", cmd_stack)
-
+                saveStack();
+                clearInput();
                 // Find the script that matches the entered command
                 var matchingScript = data.find(function (script) {
                     return script.command === enteredCommand;
@@ -249,12 +249,33 @@ $(function () {
     function clearInput() {
         $("#commandInput").val("");
     }
-    function cmdStack() {
+    function setStack(event) {
+        event.preventDefault(); // Prevent form submission
+        var curr_stack = $("#commandInput").val().trim();
         if(cmd_stack_cnt !== -1){
+            // Save cmd in stack
+            saveStack(false);
+            if (curr_stack === cmd_stack[cmd_stack.lenght]){
+                cmd_stack_cnt = cmd_stack[cmd_stack.lenght] -1;
+            }
             $("#commandInput").val(cmd_stack[cmd_stack_cnt]);
-        } 
+        }
         else {
             clearInput();
+        }
+        
+    }
+    function saveStack(fromEnter=true){
+        var curr_stack = $("#commandInput").val().trim();
+        if (curr_stack){
+            if(cmd_stack.includes(curr_stack) && fromEnter){
+                const _id = cmd_stack.indexOf(curr_stack);
+                cmd_stack.splice(_id, _id+1)
+            }
+            if(!cmd_stack.includes(curr_stack)){
+                cmd_stack.push(curr_stack);
+                console.log("🚀 ~ file: script.js:277 ~ saveStack ~ cmd_stack:", cmd_stack)
+            }
         }
     }
 });
