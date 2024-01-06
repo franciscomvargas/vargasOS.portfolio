@@ -75,16 +75,19 @@ $(function () {
         },*/
         {
             // Get script Usage
-            //usage: cv.py [-h] [--id] [--skills] [--projects] [--contact]
+            //usage: cv.py [-h] [--id] [--academic] [--skills] [--pro] [--projects] [--contact] [--egg]
 
             //Get to know my work, by how I expirience it!
 
             //options:
             //-h, --help  Show this help message and exit
             //--id        About me
+            //--academic  Academic Education
             //--skills    Technical Habilities
+            //--pro       Professional Experience
             //--projects  My babies
             //--contact   How to reach me
+
             action: "type",
             //clear: true,
             strings: [""],
