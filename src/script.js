@@ -55,7 +55,7 @@ $(function () {
             action: "type",
             strings: [""],
             output:
-                '<span class="green">cv.py</span><br><br>&nbsp;',
+                '<span class="green">cv.py</span><br>&nbsp;',
             postDelay: 500,
             command: "ls",
         },
