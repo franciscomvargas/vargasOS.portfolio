@@ -69,7 +69,7 @@ body {
   color: white;
   font-family: Menlo, Monaco, "Consolas", "Courier New", "Courier";
   font-size: 11pt;
-  background: #30353A ;
+  background: #15181c ;
   background-image:url('bg.gif');
   background-blend-mode: multiply;
   background-repeat: repeat;
@@ -142,7 +142,7 @@ body {
   padding: 8px;
 }
 .terminal-window tr:nth-child(even) {
-  background-color: #6d707486;
+  background-color: #15181c;
 }
 
 /*Contact Me Styling*/
