@@ -163,7 +163,7 @@ $(function () {
             strings: [""],
             command: "python3 cv.py --egg",
             output: 
-                '<span class="gray">BoomShakalaka my fellow dev C:</span><br><br>Don\'t forget give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project repository</a> a star ⭐<br>&nbsp;',
+                '<span class="gray">BoomShakalaka my fellow dev c:</span><br><br>Don\'t forget to give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project`s repository</a> a star! ⭐<br>&nbsp;',
         },
     ];
 
