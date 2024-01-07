@@ -205,13 +205,12 @@ $(function () {
                 $("body").css("background", bgcolor);
 
                 // Handle multiple python prefixes
-                // if(enteredCommand.startsWith("python "){
-
-                // }
-                // else 
-                // if(enteredCommand.startsWith("py ")){
-                //     entered
-                // }
+                if (enteredCommand.startsWith("python ")) {
+                    enteredCommand = enteredCommand.replace("python ", "python3 ");
+                }
+                if (enteredCommand.startsWith("py ")) {
+                    enteredCommand = enteredCommand.replace("py ", "python3 ");
+                }
 
                 // Save cmd in stack
                 saveStack();
