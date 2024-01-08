@@ -1,9 +1,19 @@
-// @ts-ignore
-    // var bgcolor = enteredCommand.toHSL({hue: [180, 360],sat: [75, 95],lit: [55, 65], tra: '1'});
-    // console.log(bgcolor)
-    // $("body").css("background", bgcolor)
+/* Global Vars */
 var cmd_stack = [];
 var cmd_stack_cnt = -1;
+
+/* Focus on Terminal on startup | click */
+// on StartUp
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("commandInput").focus();
+});
+// on Click
+$(".terminal-window").click(function(){
+  document.getElementById("commandInput").focus();
+})
+
+/* Generate Color from string*/
+// Credits 4 @spacewalkingninja
 String.prototype.toHSL = function(opts) {
   // @ts-ignore
   var h, s, l;
@@ -43,16 +53,111 @@ String.prototype.toHSL = function(opts) {
   return 'rgba('+ parseInt(255 * f(0)) +','+ parseInt(255 * f(8)) + ','+ parseInt(255 * f(4)) + ',  ' + opts.tra + ')';
 }
 
+/* Scroll Terminal to the bottom */
+function terminalScroll(){
+    $("section.terminal").scrollTop(
+        $("section.terminal").height() + 10000
+    );
+}
+/* Run Commands */
+function runScripts(data, pos) {
+    var prompt = $(".prompt"),
+        script = data[pos];
+    if (script.clear === true) {
+        $(".history").html("");
+    }
+    switch (script.action) {
+        case "type":
+        // cleanup for next execution
+        prompt.removeData();
+        // $(".typed-cursor").text("");
+        prompt.typed({
+            strings: script.strings,
+            typeSpeed: 5,
+            callback: function () {
+                var history = $(".history").html();
+                history = history ? [history] : [];
+                history.push("~$ " + data[pos].command + prompt.text());
+
+
+                if (script.output) {
+                    history.push(script.output);
+                    prompt.html("");
+                    $(".history").html(history.join("<br>"));
+                }
+                // scroll to the bottom of the screen
+                terminalScroll();
+
+                // Run next script
+                // pos++;
+                // if (pos < data.length) {
+                //     setTimeout(function () {
+                //         runScripts(data, pos);
+                //     }, script.postDelay || 1000);
+                // }
+            },
+        });
+        break;
+        case "print":
+            var history = $(".history").html();
+            history = history ? [history] : [];
+            history.push("~$ " + data[pos].command + prompt.text());
+            history.push("Opening Print Dialog...<br>");
+            $(".history").html(history.join("<br>"));
+            terminalScroll();
+            setTimeout(() => {
+                window.print();
+            }, 100);
+            break;
+        case "view":
+            break;
+        case "input":
+            createInput(script, pos);
+        break;
+    }
+    if (pos === data.length - 1) {
+        console.log("See ya 👋");
+    }
+}
+
+/* If you create Inputs you now what you doin.. */
+function createInput(script, pos) {
+    var prompt = $(".prompt");
+    var inputElement = $('<input type="text" class="terminal-input">');
+    var submitButton = $('<button type="button">Submit</button>');
+
+    submitButton.on("click", function () {
+        var inputValue = inputElement.val().trim();
+        // Display entered input in the terminal
+        var history = $(".history").html();
+        history = history ? [history] : [];
+        history.push("~$ " + inputValue);
+        $(".history").html(history.join("<br>"));
+
+        // Display output based on the entered input
+        var output = script.output.replace('<span class="input-value"></span>', inputValue);
+        history.push(output);
+        $(".history").html(history.join("<br>"));
+
+        clearInput();
+        // Continue to the next script
+        pos++;
+        if (pos < data.length) {
+        runScripts(data, pos);
+        }
+    });
+
+    $(".history").append("~$ ");
+    $(".history").append(prompt.text());
+    $(".history").append(inputElement);
+    $(".history").append(submitButton);
+}
+
+/* Main Function */
 $(function () {
+    /* Commands List */
     var data = [
-        {
-            action: "type",
-            strings: [""],
-            output:
-                '<span class="gray"># list directory content</span><br>Total 1<br>-rwxr-xr-x&nbsp;&nbsp;1&nbsp;&nbsp;root&nbsp;&nbsp;root&nbsp;&nbsp;5637&nbsp;&nbsp;Dec 2023 19&nbsp;&nbsp;04:25&nbsp;&nbsp;cv.py<br>&nbsp;',
-            postDelay: 500,
-            command: "ls -l",
-        },
+        /* List Content */
         {
             action: "type",
             strings: [""],
@@ -61,6 +166,15 @@ $(function () {
             postDelay: 500,
             command: "ls",
         },
+        { 
+            action: "type",
+            strings: [""],
+            output:
+                'Total 1<br>-rwxr-xr-x&nbsp;&nbsp;1&nbsp;&nbsp;root&nbsp;&nbsp;root&nbsp;&nbsp;5637&nbsp;&nbsp;Jan 2024 8&nbsp;&nbsp;04:25&nbsp;&nbsp;<span class="green">cv.py</span><br>&nbsp;',
+            postDelay: 500,
+            command: "ls -l",
+        },
+        /* Python Version */
         {
             action: 'type',
             strings: [""],
@@ -68,6 +182,42 @@ $(function () {
             postDelay: 500,
             command: "python3 --version",
         },
+        {
+            action: 'type',
+            strings: [""],
+            output: 'Python 3.12.1<br>&nbsp;',
+            postDelay: 500,
+            command: "python --version",
+        },
+        {
+            action: 'type',
+            strings: [""],
+            output: 'Python 3.12.1<br>&nbsp;',
+            postDelay: 500,
+            command: "py --version",
+        },
+        {
+            action: 'type',
+            strings: [""],
+            output: 'Python 3.12.1<br>&nbsp;',
+            postDelay: 500,
+            command: "python3",
+        },
+        {
+            action: 'type',
+            strings: [""],
+            output: 'Python 3.12.1<br>&nbsp;',
+            postDelay: 500,
+            command: "python",
+        },
+        {
+            action: 'type',
+            strings: [""],
+            output: 'Python 3.12.1<br>&nbsp;',
+            postDelay: 500,
+            command: "py",
+        },
+        /* Clear Terminal */
         {
             action: 'type',
             strings: [""],
@@ -80,11 +230,15 @@ $(function () {
             clear: true,
             command: "cls",
         },
+        /* Internal Terminal Data */
+        // Get script Usage
         {
-            // Get script Usage
-            //usage: cv.py [-h] [--id] [--academic] [--skills] [--pro] [--projects] [--contact] [--egg]
+            //usage: cv.py [-h] [--id] [--academic] [--skills] [--pro] [--projects] project [--contact] [--egg]
 
             //Get to know my work, by how I expirience it!
+            
+            //positional arguments:
+            //project     project IDs: 
 
             //options:
             //-h, --help  Show this help message and exit
@@ -105,59 +259,7 @@ $(function () {
             postDelay: 300,
             command: "python3 cv.py",
         },
-        {
-            // Run Script with Profile Argument
-            action: "type",
-            strings: [""],
-            //   strings: ["python3 cv.py --id^250"],
-            output: $(".vargasOS-run-id").html(),
-            postDelay: 300,
-            command: "python3 cv.py --id",
-        },
-        {
-            // Run Script with Profile Argument
-            action: "type",
-            strings: [""],
-            // strings: ["python3 cv.py --academic^250"],
-            output: $(".vargasOS-run-academic").html(),
-            postDelay: 300,
-            command: "python3 cv.py --academic",
-        },
-        {
-            // Run Script with Skills Argument
-            action: "type",
-            strings: [""],
-            // strings: ["python3 cv.py --pro^300"],
-            output: $(".vargasOS-run-pro").html(),
-            postDelay: 300,
-            command: "python3 cv.py --pro",
-        },
-        {
-            // Run Script with Skills Argument
-            action: "type",
-            strings: [""],
-            // strings: ["python3 cv.py --skills^300"],
-            output: $(".vargasOS-run-skills").html(),
-            postDelay: 300,
-            command: "python3 cv.py --skills",
-        },
-        {
-            // Run Script with Projects Argument
-            action: "type",
-            strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects").html(),
-            postDelay: 300,
-            command: "python3 cv.py --projects",
-        },
-        {
-            // Run Script with Contacts Argument
-            action: "type",
-            strings: [""],
-            // strings: ["python3 cv.py --contact^250"],
-            output: $(".vargasOS-run-contact").html(),
-            command: "python3 cv.py --contact",
-        },
+        // Terminal Egg
         {
             action: "type",
             strings: [""],
@@ -165,11 +267,120 @@ $(function () {
             output: 
                 '<span class="gray">BoomShakalaka my fellow dev c:</span><br><br>Don\'t forget to give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project`s repository</a> a star! ⭐<br>&nbsp;',
         },
+        /* HTML Terminal Data */
+        // Run Script with Profile Argument
+        {
+            action: "type",
+            strings: [""],
+            //   strings: ["python3 cv.py --id^250"],
+            output: $(".vargasOS-run-id").html(),
+            postDelay: 300,
+            command: "python3 cv.py --id",
+        },
+        // Run Script with Profile Argument
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --academic^250"],
+            output: $(".vargasOS-run-academic").html(),
+            postDelay: 300,
+            command: "python3 cv.py --academic",
+        },
+        // Run Script with Skills Argument
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --pro^300"],
+            output: $(".vargasOS-run-pro").html(),
+            postDelay: 300,
+            command: "python3 cv.py --pro",
+        },
+        // Run Script with Skills Argument
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --skills^300"],
+            output: $(".vargasOS-run-skills").html(),
+            postDelay: 300,
+            command: "python3 cv.py --skills",
+        },
+        // Run Script with Projects Argument
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --projects^500"],
+            output: $(".vargasOS-run-projects").html(),
+            postDelay: 300,
+            command: "python3 cv.py --projects",
+        },
+        // • Header
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --projects^500"],
+            output: $(".vargasOS-run-projects .projectsTag").html(),
+            postDelay: 300,
+            command: "python3 cv.py --projects header",
+        },
+        // • Project: Algoz
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --projects^500"],
+            output: $(".vargasOS-run-projects .algoz").html(),
+            postDelay: 300,
+            command: "python3 cv.py --projects algoz",
+        },
+        // • Project: EsQuotes
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --projects^500"],
+            output: $(".vargasOS-run-projects .esquotes").html(),
+            postDelay: 300,
+            command: "python3 cv.py --projects esquotes",
+        },
+        // • Project: Desota
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --projects^500"],
+            output: $(".vargasOS-run-projects .desota").html(),
+            postDelay: 300,
+            command: "python3 cv.py --projects desota",
+        },
+        // • Project: Rift
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --projects^500"],
+            output: $(".vargasOS-run-projects .rift").html(),
+            postDelay: 300,
+            command: "python3 cv.py --projects rift",
+        },
+        // Run Script with Contacts Argument
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --contact^250"],
+            output: $(".vargasOS-run-contact").html(),
+            command: "python3 cv.py --contact",
+        },
+        /* Print Command */
+        {
+            action: "print",
+            command: "print",
+        },
+        {
+            action: "print",
+            command: "lp",
+        },
+
     ];
 
     console.log("Hi there 👋");
 
-    // Listen for "Enter" key press in the input field
+    /* Listen for key press */
     $("#commandInput").on("keydown", function (event) {
         switch(event.key){
             case "ArrowUp":
@@ -200,7 +411,7 @@ $(function () {
             case "Enter":
                 event.preventDefault(); // Prevent form submission
                 cmd_stack_cnt = -1;
-                var enteredCommand = $(this).val().trim();
+                var enteredCommand = $(this).val().trim().toLowerCase();
                 var bgcolor = enteredCommand.toHSL({hue: [90, 360],sat: [75, 95],lit: [55, 65], tra: '0.65'});
                 $("body").css("background", bgcolor);
 
@@ -237,17 +448,17 @@ $(function () {
                     }
                     $(".history").html(history.join("<br>"));
                     clearInput();
-                    $("section.terminal").scrollTop(
-                        $("section.terminal").height() + 10000
-                    );
+                    terminalScroll();
                 }
                 break;
         }
     });
 
+    /* Clear Terminal */
     function clearInput() {
         $("#commandInput").val("");
     }
+    /* Set Terminal Input based on Stack Counter `cmd_stack_cnt` */
     function setStack(event) {
         event.preventDefault(); // Prevent form submission
         var curr_stack = $("#commandInput").val().trim();
@@ -264,6 +475,7 @@ $(function () {
         }
         
     }
+    /* Save current Terminal Input in Stack */
     function saveStack(fromEnter=true){
         var curr_stack = $("#commandInput").val().trim();
         if (curr_stack){
@@ -278,95 +490,3 @@ $(function () {
         }
     }
 });
-
-document.addEventListener("DOMContentLoaded", function() {
-  // Focus on the input element with id "commandInput" on load
-  document.getElementById("commandInput").focus();
-});
-
-$(".terminal-window").click(function(){
-  document.getElementById("commandInput").focus();
-})
-
-
-function runScripts(data, pos) {
-    var prompt = $(".prompt"),
-        script = data[pos];
-    if (script.clear === true) {
-        $(".history").html("");
-    }
-    switch (script.action) {
-        case "type":
-        // cleanup for next execution
-        prompt.removeData();
-        // $(".typed-cursor").text("");
-        prompt.typed({
-            strings: script.strings,
-            typeSpeed: 5,
-            callback: function () {
-                var history = $(".history").html();
-                history = history ? [history] : [];
-                history.push("~$ " + data[pos].command + prompt.text());
-
-
-                if (script.output) {
-                    history.push(script.output);
-                    prompt.html("");
-                    $(".history").html(history.join("<br>"));
-                }
-                // scroll to the bottom of the screen
-                $("section.terminal").scrollTop(
-                    $("section.terminal").height() + 10000
-                );
-                // Run next script
-                // pos++;
-                // if (pos < data.length) {
-                //     setTimeout(function () {
-                //         runScripts(data, pos);
-                //     }, script.postDelay || 1000);
-                // }
-            },
-        });
-        break;
-        case "view":
-            break;
-        case "input":
-            createInput(script, pos);
-        break;
-    }
-    if (pos === data.length - 1) {
-        console.log("See ya 👋");
-    }
-}
-
-function createInput(script, pos) {
-    var prompt = $(".prompt");
-    var inputElement = $('<input type="text" class="terminal-input">');
-    var submitButton = $('<button type="button">Submit</button>');
-
-    submitButton.on("click", function () {
-        var inputValue = inputElement.val().trim();
-        // Display entered input in the terminal
-        var history = $(".history").html();
-        history = history ? [history] : [];
-        history.push("~$ " + inputValue);
-        $(".history").html(history.join("<br>"));
-
-        // Display output based on the entered input
-        var output = script.output.replace('<span class="input-value"></span>', inputValue);
-        history.push(output);
-        $(".history").html(history.join("<br>"));
-
-        clearInput();
-        // Continue to the next script
-        pos++;
-        if (pos < data.length) {
-        runScripts(data, pos);
-        }
-    });
-
-    $(".history").append("~$ ");
-    $(".history").append(prompt.text());
-    $(".history").append(inputElement);
-    $(".history").append(submitButton);
-}
