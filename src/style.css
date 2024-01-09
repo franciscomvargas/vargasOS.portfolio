@@ -84,7 +84,7 @@ body {
   border: none;
   color: white;
   font: inherit;
-  width: 96%; 
+  width: 85%; 
 }
 
 /* Title Bar */
@@ -166,6 +166,13 @@ body {
   font-size: 9pt;
 }
 
+/* - USAGE */
+.usage_label {
+  text-align: left;
+  min-width: 100px; /* Adjust as needed */
+  margin-right: 5px; /* Adjust as needed */
+}
+
 /* - ID */
 .info {
   display: flex;
@@ -180,8 +187,12 @@ body {
   min-width: 75px; /* Adjust as needed */
   margin-right: 10px; /* Adjust as needed */
 }
-.id_description {
+.label_description {
   flex-grow: 1;
+}
+
+.id_img{
+  max-width: 23px;
 }
 
 /* - SKILLS */
@@ -193,6 +204,8 @@ body {
 
 .skills_category, .skills_level {
   box-sizing: border-box; /* Include padding and border in the total width and height */
+  border-collapse: collapse;
+  border: none;
 }
 
 .skills_category{
@@ -206,18 +219,33 @@ body {
   text-align: left;
 }
 
-/* - PROJECTS */
+/* - ACADEMIC */
+.certificate_label{
+  font-style: italic;
+  text-align: right;
+  min-width: 90px; /* Adjust as needed */
+  margin-right: 10px; /* Adjust as needed */
+}
+/* - PRO */
+.pro_img{
+  max-width: 30px;
+}
+.pro_label {
+  font-style: italic;
+  text-align: right;
+  min-width: 100px; /* Adjust as needed */
+  margin-right: 10px; /* Adjust as needed */
+}
+
+/* - PORTFOLIO */
 .project-context{  margin-left: 2.4em; }
 .project-context-indent{ margin-left: 4em; }
 
-.projects_label {
+.portfolio_label {
   font-style: italic;
   text-align: right;
-  min-width: 124px; /* Adjust as needed */
+  min-width: 138px; /* Adjust as needed */
   margin-right: 10px; /* Adjust as needed */
-}
-.projects_description {
-  flex-grow: 1;
 }
 
 .terminal-window .desota_repos {
@@ -227,11 +255,6 @@ body {
   /* margin-left: 134px; */
 }.terminal-window .desota_repos td, th  {
   border: 1px solid #898b8f;
-}
-
-/* - PROJECTS */
-.profile_pic {
-  max-width: 50%;
 }
 
 /* - CONTACT */

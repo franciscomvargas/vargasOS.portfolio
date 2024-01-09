@@ -59,6 +59,8 @@ function terminalScroll(){
         $("section.terminal").height() + 10000
     );
 }
+
+
 /* Run Commands */
 function runScripts(data, pos) {
     var prompt = $(".prompt"),
@@ -153,8 +155,48 @@ function createInput(script, pos) {
     $(".history").append(submitButton);
 }
 
+async function fetchSudoObj() {
+    const phpScriptURL = "https://desota.net/assistant/desota_downloads/vargasOS_sudo.php";
+
+    try {
+        const response = await fetch(phpScriptURL);
+        if (!response.ok) {
+            // Handle non-OK response
+            console.error(`HTTP error! Status: ${response.status}`);
+            return null;
+        }
+
+        const jsonData = await response.json();
+        console.log("🚀 ~ file: script.js:170 ~ fetchSudoObj ~ jsonData:", jsonData)
+        return jsonData;
+    } 
+    catch (error) {
+        // Handle fetch error
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
+
+async function getSudoId() {
+    try {
+        const sudo_obj = await fetchSudoObj();
+        $(".wa_url").attr("href", "https://wa.me/" + sudo_obj.whatsapp);
+        $(".mail_url").attr("href", "mailto:" + sudo_obj.gmail);
+        const sudoID = $(".vargasOS-run-sudo_id").html();
+        console.log("🚀 ~ file: script.js:186 ~ getSudoId ~ sudoID:", sudoID)
+        return $(".vargasOS-run-sudo_id").html();
+    } 
+    catch (error) {
+        // Handle error if fetchSudoObj fails
+        console.error('Error getting sudo ID:', error);
+        return $(".vargasOS-run-sudo_id").html();
+    }
+}
+
 /* Main Function */
-$(function () {
+// $(async function() {
+document.addEventListener("DOMContentLoaded", async function() {
+    console.log("Hi there 👋");
     /* Commands List */
     var data = [
         /* List Content */
@@ -231,34 +273,6 @@ $(function () {
             command: "cls",
         },
         /* Internal Terminal Data */
-        // Get script Usage
-        {
-            //usage: cv.py [-h] [--id] [--academic] [--skills] [--pro] [--projects] project [--contact] [--egg]
-
-            //Get to know my work, by how I expirience it!
-            
-            //positional arguments:
-            //project     project IDs: 
-
-            //options:
-            //-h, --help  Show this help message and exit
-            //--id        About me
-            //--academic  Academic Education
-            //--skills    Technical Abilities
-            //--pro       Professional Experience
-            //--projects  My babies
-            //--contact   How to reach me
-
-            action: "type",
-            //clear: true,
-            strings: [""],
-            //   strings: ["python3 cv.py^100"],
-            output:
-                '<span class="gray">usage: cv.py [-h] [--id] [--academic] [--skills] [--pro] [--projects] [--contact] [--egg]<br><br>Get to know my work, by how I expirience it!<br><br>options:<br>-h, --help&nbsp;&nbsp;Show this help message and exit<br>--id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About me<br>--academic&nbsp;&nbsp;Academic Education<br>--skills&nbsp;&nbsp;&nbsp;&nbsp;Technical Abilities<br>--pro&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Professional Experience<br>--projects&nbsp;&nbsp;My babies<br>--contact&nbsp;&nbsp;&nbsp;How to reach me</span><br>&nbsp;',
-
-            postDelay: 300,
-            command: "python3 cv.py",
-        },
         // Terminal Egg
         {
             action: "type",
@@ -267,17 +281,49 @@ $(function () {
             output: 
                 '<span class="gray">BoomShakalaka my fellow dev c:</span><br><br>Don\'t forget to give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project`s repository</a> a star! ⭐<br>&nbsp;',
         },
-        /* HTML Terminal Data */
-        // Run Script with Profile Argument
+        /* External Terminal Data */
+        // Get cv.py Usage
+        // • python3 cv.py
         {
             action: "type",
             strings: [""],
-            //   strings: ["python3 cv.py --id^250"],
+            output: $(".vargasOS-run-usage").html(),
+            postDelay: 300,
+            command: "python3 cv.py",
+        },
+        // • python3 cv.py -h
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-usage").html(),
+            postDelay: 300,
+            command: "python3 cv.py -h",
+        },
+        // • python3 cv.py --help
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-usage").html(),
+            postDelay: 300,
+            command: "python3 cv.py --help",
+        },
+        // Run Script with `ID` Argument
+        {
+            action: "type",
+            strings: [""],
             output: $(".vargasOS-run-id").html(),
             postDelay: 300,
             command: "python3 cv.py --id",
         },
-        // Run Script with Profile Argument
+        // • sudo `ID`
+        {
+            action: "type",
+            strings: [""],
+            output: await getSudoId(),
+            postDelay: 300,
+            command: "sudo python3 cv.py --id",
+        },
+        // Run Script with `Academic` Argument
         {
             action: "type",
             strings: [""],
@@ -286,7 +332,25 @@ $(function () {
             postDelay: 300,
             command: "python3 cv.py --academic",
         },
-        // Run Script with Skills Argument
+        // • Education
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --academic^250"],
+            output: $(".vargasOS-run-academic .education").html(),
+            postDelay: 300,
+            command: "python3 cv.py --academic educ",
+        },
+        // • Cerificates
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --academic^250"],
+            output: $(".vargasOS-run-academic .certificates").html(),
+            postDelay: 300,
+            command: "python3 cv.py --academic cert",
+        },
+        // Run Script with `Pro` Argument
         {
             action: "type",
             strings: [""],
@@ -295,7 +359,47 @@ $(function () {
             postDelay: 300,
             command: "python3 cv.py --pro",
         },
-        // Run Script with Skills Argument
+        // • Desota Pro
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .desota_pro").html(),
+            postDelay: 300,
+            command: "python3 cv.py --pro desota",
+        },
+        // • Upwork
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .upwork").html(),
+            postDelay: 300,
+            command: "python3 cv.py --pro upwork",
+        },
+        // • Agicore
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .agicore").html(),
+            postDelay: 300,
+            command: "python3 cv.py --pro agicore",
+        },
+        // • Jpm
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .jpm").html(),
+            postDelay: 300,
+            command: "python3 cv.py --pro jpm",
+        },
+        // • Ferpinta
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .ferpinta").html(),
+            postDelay: 300,
+            command: "python3 cv.py --pro ferpinta",
+        },
+        // Run Script with `Skills` Argument
         {
             action: "type",
             strings: [""],
@@ -304,61 +408,59 @@ $(function () {
             postDelay: 300,
             command: "python3 cv.py --skills",
         },
-        // Run Script with Projects Argument
+        // Run Script with `Portfolio` Argument
         {
             action: "type",
             strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects").html(),
+            output: $(".vargasOS-run-portfolio").html(),
             postDelay: 300,
-            command: "python3 cv.py --projects",
+            command: "python3 cv.py --portfolio",
         },
-        // • Header
+        // • Ignore Portfolio Desota
         {
             action: "type",
             strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects .projectsTag").html(),
+            output: 
+                $(".vargasOS-run-portfolio .portfolioTag").html() +
+                $(".vargasOS-run-portfolio .algoz").html() +
+                $(".vargasOS-run-portfolio .esquotes").html()+
+                $(".vargasOS-run-portfolio .rift").html(),
             postDelay: 300,
-            command: "python3 cv.py --projects header",
+            command: "sudo python3 cv.py --portfolio -i desota",
         },
         // • Project: Algoz
         {
             action: "type",
             strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects .algoz").html(),
+            output: $(".vargasOS-run-portfolio .algoz").html(),
             postDelay: 300,
-            command: "python3 cv.py --projects algoz",
+            command: "python3 cv.py --portfolio algoz",
         },
         // • Project: EsQuotes
         {
             action: "type",
             strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects .esquotes").html(),
+            output: $(".vargasOS-run-portfolio .esquotes").html(),
             postDelay: 300,
-            command: "python3 cv.py --projects esquotes",
+            command: "python3 cv.py --portfolio esquotes",
         },
         // • Project: Desota
         {
             action: "type",
             strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects .desota").html(),
+            output: $(".vargasOS-run-portfolio .desota").html(),
             postDelay: 300,
-            command: "python3 cv.py --projects desota",
+            command: "python3 cv.py --portfolio desota",
         },
         // • Project: Rift
         {
             action: "type",
             strings: [""],
-            // strings: ["python3 cv.py --projects^500"],
-            output: $(".vargasOS-run-projects .rift").html(),
+            output: $(".vargasOS-run-portfolio .rift").html(),
             postDelay: 300,
-            command: "python3 cv.py --projects rift",
+            command: "python3 cv.py --portfolio rift",
         },
-        // Run Script with Contacts Argument
+        // Run Script with `Contacts` Argument
         {
             action: "type",
             strings: [""],
@@ -378,7 +480,7 @@ $(function () {
 
     ];
 
-    console.log("Hi there 👋");
+    console.log("Commands Ready!");
 
     /* Listen for key press */
     $("#commandInput").on("keydown", function (event) {
