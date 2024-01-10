@@ -122,6 +122,36 @@ body {
   text-align: center;
 }
 
+/* Tool Tip */
+.vargasOS-id{
+  float: left;
+}
+
+.tooltip {
+  float: right;
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 40em;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 8px;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 /* Terminal Console */
 .terminal-window section.terminal {
   color: white;

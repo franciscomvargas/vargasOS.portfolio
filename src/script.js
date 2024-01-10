@@ -468,6 +468,20 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-contact").html(),
             command: "python3 cv.py --contact",
         },
+        // Run Script with `IGiveUp` Argument
+        {
+            action: "type",
+            strings: [""],
+            output: 
+                $(".vargasOS-run-id").html() +
+                $(".vargasOS-run-skills").html() +
+                $(".vargasOS-run-pro").html() +
+                $(".vargasOS-run-academic").html() +
+                $(".vargasOS-run-portfolio").html() +
+                $(".vargasOS-run-contact").html(),
+            postDelay: 300,
+            command: "igiveup",
+        },
         /* Print Command */
         {
             action: "print",
