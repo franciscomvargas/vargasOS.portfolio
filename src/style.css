@@ -183,6 +183,19 @@ body {
   filter: brightness(1.2);
 }
 
+/* MANUALS */
+.man-sub-title {
+  margin-left: 4em; /* Adjust as needed */
+}
+.man-command {
+  font-weight: bold;
+  margin-left: 4em; /* Adjust as needed */
+    color: white;
+}
+.man-sub-content {
+  margin-left: 8em; /* Adjust as needed */
+}
+
 /* CV FORMAT - START */
 .terminal-window .chapter { 
   font-weight: bold;

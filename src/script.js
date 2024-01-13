@@ -5,11 +5,12 @@ var cmd_stack_cnt = -1;
 /* Focus on Terminal on startup | click */
 // on StartUp
 document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("commandInput").focus();
+  $("#commandInput").attr("placeholder", "man");
 });
 // on Click
 $(".terminal-window").click(function(){
   document.getElementById("commandInput").focus();
+  $("#commandInput").attr("placeholder", "");
 })
 
 /* Generate Color from string*/
@@ -116,9 +117,6 @@ function runScripts(data, pos) {
         case "input":
             createInput(script, pos);
         break;
-    }
-    if (pos === data.length - 1) {
-        console.log("See ya 👋");
     }
 }
 
@@ -282,6 +280,36 @@ document.addEventListener("DOMContentLoaded", async function() {
                 '<span class="gray">BoomShakalaka my fellow dev c:</span><br><br>Don\'t forget to give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project`s repository</a> a star! ⭐<br>&nbsp;',
         },
         /* External Terminal Data */
+        // Manuals
+        // • vargasOS
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-man_vargasos").html(),
+            postDelay: 300,
+            command: "man",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-man_vargasos").html(),
+            postDelay: 300,
+            command: "man vargasos",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-man_vargasos").html(),
+            postDelay: 300,
+            command: "help",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-man_vargasos").html(),
+            postDelay: 300,
+            command: "?",
+        },
         // Get cv.py Usage
         // • python3 cv.py
         {
@@ -469,6 +497,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             command: "python3 cv.py --contact",
         },
         // Run Script with `IGiveUp` Argument
+        // • IGiveUp
         {
             action: "type",
             strings: [""],
@@ -481,6 +510,20 @@ document.addEventListener("DOMContentLoaded", async function() {
                 $(".vargasOS-run-contact").html(),
             postDelay: 300,
             command: "igiveup",
+        },
+        // • IGiveUp
+        {
+            action: "type",
+            strings: [""],
+            output: 
+                $(".vargasOS-run-id").html() +
+                $(".vargasOS-run-skills").html() +
+                $(".vargasOS-run-pro").html() +
+                $(".vargasOS-run-academic").html() +
+                $(".vargasOS-run-portfolio").html() +
+                $(".vargasOS-run-contact").html(),
+            postDelay: 300,
+            command: "vargasos",
         },
         /* Print Command */
         {
@@ -539,12 +582,17 @@ document.addEventListener("DOMContentLoaded", async function() {
                     enteredCommand = enteredCommand.replace("py ", "python3 ");
                 }
 
+                // Get Args:
+                var args = []
                 // Save cmd in stack
                 saveStack();
                 clearInput();
                 // Find the script that matches the entered command
                 var matchingScript = data.find(function (script) {
                     return script.command === enteredCommand;
+                });
+                var usageScript = data.find(function (script) {
+                    return script.command === "python3 cv.py";
                 });
                 if (matchingScript) {
                     // Run the matching script
@@ -557,6 +605,13 @@ document.addEventListener("DOMContentLoaded", async function() {
                     if(enteredCommand === "")
                     {
                         history.push("~$ " + enteredCommand + "&nbsp;");
+                    }
+                    else if(enteredCommand.startsWith("python3 ") && !enteredCommand.startsWith("python3 cv.py")){
+                        const filename = enteredCommand.split(' ')[1];
+                        history.push("~$ " + enteredCommand + "<br>python3: can't open file '~/" + filename + "': [Errno 2] No such file or directory<br>&nbsp;");
+                    }
+                    else if(enteredCommand.startsWith("python3 cv.py ")){
+                        runScripts([usageScript], 0);
                     }
                     else
                     {
