@@ -6,11 +6,11 @@ var cmd_stack_cnt = -1;
 // on StartUp
 document.addEventListener("DOMContentLoaded", function() {
   $("#commandInput").attr("placeholder", "man");
+  document.getElementById("commandInput").focus();
 });
 // on Click
 $(".terminal-window").click(function(){
   document.getElementById("commandInput").focus();
-  $("#commandInput").attr("placeholder", "");
 })
 
 /* Generate Color from string*/
@@ -621,6 +621,8 @@ document.addEventListener("DOMContentLoaded", async function() {
                     clearInput();
                     terminalScroll();
                 }
+                if (cmd_stack.length > 0)
+                    $("#commandInput").attr("placeholder", "");
                 break;
         }
     });
