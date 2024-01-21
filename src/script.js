@@ -279,6 +279,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: 
                 '<span class="gray">BoomShakalaka my fellow dev c:</span><br><br>Don\'t forget to give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project`s repository</a> a star! ⭐<br>&nbsp;',
         },
+        {
+            action: "type",
+            strings: [""],
+            command: "python3 ./cv.py --egg",
+            output: 
+                '<span class="gray">BoomShakalaka my fellow dev c:</span><br><br>Don\'t forget to give this <a href="https://github.com/franciscomvargas/vargasos.portfolio">project`s repository</a> a star! ⭐<br>&nbsp;',
+        },
         /* External Terminal Data */
         // Manuals
         // • vargasOS
@@ -310,6 +317,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "?",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-man_vargasos").html(),
+            postDelay: 300,
+            command: "show",
+        },
         // Get cv.py Usage
         // • python3 cv.py
         {
@@ -319,6 +333,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-usage").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py",
+        },
         // • python3 cv.py -h
         {
             action: "type",
@@ -326,6 +347,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-usage").html(),
             postDelay: 300,
             command: "python3 cv.py -h",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-usage").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py -h",
         },
         // • python3 cv.py --help
         {
@@ -335,6 +363,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --help",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-usage").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --help",
+        },
         // Run Script with `ID` Argument
         {
             action: "type",
@@ -343,6 +378,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --id",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-id").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --id",
+        },
         // • sudo `ID`
         {
             action: "type",
@@ -350,6 +392,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: await getSudoId(),
             postDelay: 300,
             command: "sudo python3 cv.py --id",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: await getSudoId(),
+            postDelay: 300,
+            command: "sudo python3 ./cv.py --id",
         },
         // Run Script with `Academic` Argument
         {
@@ -360,6 +409,14 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --academic",
         },
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --academic^250"],
+            output: $(".vargasOS-run-academic").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --academic",
+        },
         // • Education
         {
             action: "type",
@@ -368,6 +425,14 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-academic .education").html(),
             postDelay: 300,
             command: "python3 cv.py --academic educ",
+        },
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --academic^250"],
+            output: $(".vargasOS-run-academic .education").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --academic educ",
         },
         // • Cerificates
         {
@@ -378,6 +443,14 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --academic cert",
         },
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --academic^250"],
+            output: $(".vargasOS-run-academic .certificates").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --academic cert",
+        },
         // Run Script with `Pro` Argument
         {
             action: "type",
@@ -387,6 +460,14 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --pro",
         },
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --pro^300"],
+            output: $(".vargasOS-run-pro").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --pro",
+        },
         // • Desota Pro
         {
             action: "type",
@@ -394,6 +475,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-pro .desota_pro").html(),
             postDelay: 300,
             command: "python3 cv.py --pro desota",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .desota_pro").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --pro desota",
         },
         // • Upwork
         {
@@ -403,6 +491,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --pro upwork",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .upwork").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --pro upwork",
+        },
         // • Agicore
         {
             action: "type",
@@ -410,6 +505,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-pro .agicore").html(),
             postDelay: 300,
             command: "python3 cv.py --pro agicore",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .agicore").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --pro agicore",
         },
         // • Jpm
         {
@@ -419,6 +521,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --pro jpm",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .jpm").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --pro jpm",
+        },
         // • Ferpinta
         {
             action: "type",
@@ -426,6 +535,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-pro .ferpinta").html(),
             postDelay: 300,
             command: "python3 cv.py --pro ferpinta",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-pro .ferpinta").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --pro ferpinta",
         },
         // Run Script with `Skills` Argument
         {
@@ -436,6 +552,14 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --skills",
         },
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --skills^300"],
+            output: $(".vargasOS-run-skills").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --skills",
+        },
         // Run Script with `Portfolio` Argument
         {
             action: "type",
@@ -443,6 +567,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-portfolio").html(),
             postDelay: 300,
             command: "python3 cv.py --portfolio",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-portfolio").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --portfolio",
         },
         // • Ignore Portfolio Desota
         {
@@ -456,6 +587,17 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "sudo python3 cv.py --portfolio -i desota",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: 
+                $(".vargasOS-run-portfolio .portfolioTag").html() +
+                $(".vargasOS-run-portfolio .algoz").html() +
+                $(".vargasOS-run-portfolio .esquotes").html()+
+                $(".vargasOS-run-portfolio .rift").html(),
+            postDelay: 300,
+            command: "sudo python3 ./cv.py --portfolio -i desota",
+        },
         // • Project: Algoz
         {
             action: "type",
@@ -463,6 +605,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-portfolio .algoz").html(),
             postDelay: 300,
             command: "python3 cv.py --portfolio algoz",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-portfolio .algoz").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --portfolio algoz",
         },
         // • Project: EsQuotes
         {
@@ -472,6 +621,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --portfolio esquotes",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-portfolio .esquotes").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --portfolio esquotes",
+        },
         // • Project: Desota
         {
             action: "type",
@@ -479,6 +635,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             output: $(".vargasOS-run-portfolio .desota").html(),
             postDelay: 300,
             command: "python3 cv.py --portfolio desota",
+        },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-portfolio .desota").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --portfolio desota",
         },
         // • Project: Rift
         {
@@ -488,6 +651,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "python3 cv.py --portfolio rift",
         },
+        {
+            action: "type",
+            strings: [""],
+            output: $(".vargasOS-run-portfolio .rift").html(),
+            postDelay: 300,
+            command: "python3 ./cv.py --portfolio rift",
+        },
         // Run Script with `Contacts` Argument
         {
             action: "type",
@@ -495,6 +665,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             // strings: ["python3 cv.py --contact^250"],
             output: $(".vargasOS-run-contact").html(),
             command: "python3 cv.py --contact",
+        },
+        {
+            action: "type",
+            strings: [""],
+            // strings: ["python3 cv.py --contact^250"],
+            output: $(".vargasOS-run-contact").html(),
+            command: "python3 ./cv.py --contact",
         },
         // Run Script with `IGiveUp` Argument
         // • IGiveUp
@@ -511,7 +688,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             postDelay: 300,
             command: "igiveup",
         },
-        // • IGiveUp
+        // • IGiveUp ~ vargasos
         {
             action: "type",
             strings: [""],
