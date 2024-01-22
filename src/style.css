@@ -1,4 +1,4 @@
- @media print {
+@media print {
   /*@media all {*/
   .terminal-window {
     text-align: left;
@@ -128,11 +128,13 @@ body {
 }
 
 .tooltip {
+  font-size: 16pt;
   float: right;
   position: relative;
 }
 
 .tooltip .tooltiptext {
+  font-size: 10pt;
   visibility: hidden;
   width: 40em;
   background-color: black;
