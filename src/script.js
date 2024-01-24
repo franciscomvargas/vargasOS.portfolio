@@ -9,9 +9,15 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("commandInput").focus();
 });
 // on Click
-$(".terminal-window").click(function(){
+$(".terminal").click(function(){
   document.getElementById("commandInput").focus();
 })
+
+/* Drag Terminal Arround */
+$( ".terminal-window" )
+  .draggable({
+    cancel: ".terminal,input"
+  });
 
 /* Generate Color from string*/
 // Credits 4 @spacewalkingninja
